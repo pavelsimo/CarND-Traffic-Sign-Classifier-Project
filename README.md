@@ -22,6 +22,13 @@ The goals / steps of this project are the following:
 [image9]: ./examples/traffic_sign_validation_set_accuracy.png "image9"
 [image10]: ./examples/traffic_sign_samples.png "image10"
 [image11]: ./examples/traffic_sign_sample_60_original.jpg "image11"
+[image12]: ./examples/top_predictions_001.png "image12"
+[image13]: ./examples/top_predictions_002.png "image13"
+[image14]: ./examples/top_predictions_003.png "image14"
+[image15]: ./examples/top_predictions_004.png "image15"
+[image16]: ./examples/top_predictions_005.png "image16"
+
+
 
 ### Data Set Summary & Exploration
 
@@ -55,7 +62,7 @@ To add more data to the the data set, I used the following techniques rotations,
 
 * Rotations: This will allow the classifier to learn rotations invariance, and be more robust.
 
-* Vertical and Horizontal Flips: Some traffic signs are not affected by horizontal flips, others are not affected by vertical flips, few of them to both flips. This technique allow me to easily create more data, thus improving the classifier.
+* Vertical and Horizontal Flips: As can be seen in the training dataset, some traffic signs are not affected by horizontal flips, others are not affected by vertical flips, few of them are not affected by both kind of flips. Taking this into consideration, I used vertical and horizontal flips to generate more data, thus improving the classifier training set.
 
 * Random Noise: This kind of perturbation can help the classifier to be more robust, while facing noisy data.
 
@@ -97,15 +104,28 @@ My final model consisted of the following layers:
 
 To train the model, I used the following hyperparameters:
 
-* Epochs:  100
-* Learning Rate: 0.001
-* Batch Size: 128
+* Epoch iterations 100
+
+I tried increasing the Epoch value to 200, but the model was not improving its accuracy more than 96%, which suggest me to focus my efforts in improving the training dataset and network topology.
+
+* Learning Rate of 0.001
+
+I tried tuning for a smaller learning rate of 0.0001, but the classifier took too long to generalized the model, thus taking too much time in the training phase.
+
+* Batch Size of 128
+
+I tried different values for the batch size, 512, 256, 128 and 64. For my model 128 performed best.
+
 * Optimizer: AdamOptimizer
 
+I did some research about the industry optimizers and the Adam algorithm seems to be a popular choice, since most of the time converge to good models faster than other optimizers. I choose this optimizer for my model, further work needs to be done to evaluate other optimizers.
+
 My final model results were:
-* training set accuracy of 0.996
-* validation set accuracy of 0.954
-* test set accuracy of 0.937
+* training set accuracy of 0.997
+* validation set accuracy of 0.956
+* test set accuracy of 0.933
+
+The difference in accuracy between the validation set and the test set is of 0.023%, which is relative small. This suggest the model is generalizing correctly for the unknown test cases.
 
 I started out with the LeNet architecture, without changes this architecture provide me with a model of approximately 80% accuracy.
 
@@ -130,63 +150,31 @@ Here are the results of the prediction:
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Road Work     		| Road Work    									| 
-| Stop    			    | Stop 										    |
+| Stop    			    | General Caution 										    |
 | Yield					| Yield											|
 | Priority Road      	| Priority Road					 				|
-| Speed limit (60 km/h)	| Speed limit (80 km/h)     					|
+| Speed limit (60 km/h)	| Speed limit (60 km/h)     					|
 
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%.
 
-For the first image, the model is really confident that is a road work sign (probability of 0.93), and the image does contain a road work sign. The top five soft max probabilities were:
+For the first image, the model is really confident that is a road work sign (probability of 0.99), and the image does contain a road work sign. The top five soft max probabilities were:
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 0.938961744        			| Road work   									| 
-| 0.0610327572     				| Bumpy road										|
-| 5.54978578e-06					| Beware of ice/snow										|
-| 6.64600242e-09	      			| Yield					 				|
-| 8.54451176e-10				    | Wild animals crossing     							|
+![alt text][image12]				|
 
-For the second image, the model is really confident that is a stop sign (probability of 0.99), and the image does contain a stop sign. The top five soft max probabilities were:
+For the second image, the model is confident that is a general caution sign (probability of 0.93), but the actual image is a stop sign. The top five soft max probabilities were:
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 0.999999881         			| Stop sign   									| 
-| 1.02522485e-07     				| General caution 										|
-| 4.33210022e-12					| Speed limit (120km/h)											|
-| 1.86186482e-14	      			| Bumpy Road					 				|
-| 2.78172460e-15				    | Speed limit (30km/h)     							|
+![alt text][image13]
 
 For the third image, the model is really confident that is a yield sign (probability of almost 1.0), and the image does contain a yield sign. The top five soft max probabilities were:
 
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 1.00000000e+00         			| Yield   									| 
-| 1.46265438e-15     				| Bumpy road 										|
-| 1.06608175e-18					| Bicycles crossing											|
-| 8.13743047e-21	      			| Traffic signals					 				|
-| 5.26210058e-22				    | No vehicles      							|
+![alt text][image14]
 
 For the fourth image, the model is really confident that is a priority road sign (probability of almost 1.0), and the image does contain a priority road sign. The top five soft max probabilities were:
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-|  1.00000000e+00         			| Priority road   									| 
-| 9.82692135e-15    				| No vehicles 										|
-| 6.17801885e-18					| Roundabout mandatory											|
-| 9.63617024e-19	      			| Ahead only					 				|
-| 6.31169762e-20				    | Speed limit (100km/h)      							|
+![alt text][image15]
 
+For the fifth image, the model is really confident that is a speed limit 60km/h sign (probability of almost 1.0), and the image does contain a speed limit 60km/h. The top five soft max probabilities were:
 
-For the fifth image, the model is really confident that is a speed limit 80km/h sign (probability of almost 1.0), and the image does contain a speed limit 60km/h. The top five soft max probabilities were:
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 0.950357914         			| Speed limit (80km/h)   									| 
-| 0.0482617281     				| Speed limit (60km/h)										|
-| 0.00137893623					| Speed limit (30km/h)										|
-| 1.23772236e-06	      			| Speed limit (50km/h)				 				|
-| 1.06169253e-07				    | Stop    							|
-
+![alt text][image16]
